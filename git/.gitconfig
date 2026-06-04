@@ -1,0 +1,12 @@
+[core]
+	# Windows改行コード問題への対策
+	# false にすることで Git による自動変換を抑止し、エディタ側で揃える方針
+	autocrlf = false
+	# safecrlf = warn で混在時に警告
+	safecrlf = warn
+
+[pull]
+	rebase = false
+
+[init]
+	defaultBranch = main

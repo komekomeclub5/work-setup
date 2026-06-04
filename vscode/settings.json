@@ -1,0 +1,33 @@
+{
+  "vim.insertModeKeyBindings": [
+    { "before": ["j", "j"], "after": ["<Esc>"] },
+    { "before": ["っj"], "after": ["<Esc>"] }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    { "before": ["あ"], "after": ["a"] },
+    { "before": ["い"], "after": ["i"] },
+    { "before": ["う"], "after": ["u"] },
+    { "before": ["お"], "after": ["o"] },
+    { "before": ["/"], "after": ["/"] },
+    { "before": ["／"], "after": ["/"] }
+  ],
+  "vim.useSystemClipboard": true,
+  "vim.hlsearch": true,
+  "vim.handleKeys": {
+    "<C-v>": true,
+    "<C-a>": true
+  },
+
+  "files.eol": "auto",
+  "files.encoding": "auto",
+  "files.autoGuessEncoding": true,
+
+  "editor.renderWhitespace": "boundary",
+  "editor.minimap.enabled": false,
+  "editor.wordWrap": "on",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+
+  "workbench.editor.enablePreview": false,
+  "workbench.startupEditor": "none"
+}

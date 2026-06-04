@@ -1,0 +1,7 @@
+[
+  {
+    "key": "japanese_nonconvert",
+    "command": "extension.vim_escape",
+    "when": "editorTextFocus && vim.active && vim.mode != 'Normal'"
+  }
+]
