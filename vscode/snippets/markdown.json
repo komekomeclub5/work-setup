@@ -110,20 +110,24 @@
   "Case Diff Extract Prompt": {
     "prefix": "casediff",
     "body": [
-      "案件 repo「$1」の現在の git diff を読んで、",
-      "変更ファイル・変更行を以下の形式で Phase 5「編集箇所リスト」用に整形してください。",
+      "事前に案件 repo 内で `gdiff` を実行して _worksheets/_tmp/$1.diff を生成しておくこと。",
+      "",
+      "_worksheets/_tmp/$1.diff を読んで、変更ファイル・変更行を以下の形式で",
+      "Phase 5「編集箇所リスト」用に整形してください。",
       "",
       "## Phase 5: 実装（自動抽出）",
       "- [ ] <ファイルパス>:<行範囲> — <変更概要>",
       "",
-      "対応する worksheet: _worksheets/$2"
+      "対応 worksheet: _worksheets/$2"
     ],
-    "description": "git diff から Phase 5 編集箇所を自動抽出"
+    "description": "git diff から Phase 5 編集箇所を自動抽出（事前に gdiff 必要）"
   },
   "Case Pre-Submit Check Prompt": {
     "prefix": "casecheck",
     "body": [
-      "案件 repo「$1」の最新 diff と _worksheets/$2 の Phase 6 を突き合わせて、",
+      "事前に案件 repo 内で `gdiff` を実行して _worksheets/_tmp/$1.diff を生成しておくこと。",
+      "",
+      "_worksheets/_tmp/$1.diff と _worksheets/$2 の Phase 6 を突き合わせて、",
       "提出前チェックの漏れを指摘してください。",
       "",
       "確認観点:",
@@ -136,21 +140,24 @@
       "",
       "漏れ・懸念があれば箇条書きで指摘してください。"
     ],
-    "description": "提出前コードチェック（push直前）"
+    "description": "提出前コードチェック（push直前・事前に gdiff 必要）"
   },
   "Case Cause Investigation Prompt": {
     "prefix": "casecause",
     "body": [
+      "事前に案件 repo 内で `gdiff` を実行して _worksheets/_tmp/$1.diff を生成しておくこと。",
+      "（過去の commit 調査が必要な場合は `git log --oneline -20 > _worksheets/_tmp/$1.log` も生成）",
+      "",
       "差し戻し指摘内容:",
-      "$1",
+      "$2",
       "",
-      "案件 repo「$2」の commit 履歴と _worksheets/$3 を読んで、以下を出してください。",
+      "_worksheets/_tmp/$1.diff と _worksheets/$3 を読んで、以下を出してください。",
       "",
-      "1. どの commit でその問題が混入したか（commit hash + 該当行）",
+      "1. diff のどの変更がその問題を引き起こしたか（ファイル + 行）",
       "2. worksheet の Phase 何が抜けていたか",
       "3. 次回 casews スニペットの Phase 6 に追記すべきチェック項目（`- [ ]` 形式）",
       "4. 同種ミスの再発防止策（1行）"
     ],
-    "description": "差し戻し原因調査"
+    "description": "差し戻し原因調査（事前に gdiff 必要）"
   }
 }
