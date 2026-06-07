@@ -106,5 +106,51 @@
       "$0"
     ],
     "description": "同一サイト再依頼時の過去案件参照"
+  },
+  "Case Diff Extract Prompt": {
+    "prefix": "casediff",
+    "body": [
+      "案件 repo「$1」の現在の git diff を読んで、",
+      "変更ファイル・変更行を以下の形式で Phase 5「編集箇所リスト」用に整形してください。",
+      "",
+      "## Phase 5: 実装（自動抽出）",
+      "- [ ] <ファイルパス>:<行範囲> — <変更概要>",
+      "",
+      "対応する worksheet: _worksheets/$2"
+    ],
+    "description": "git diff から Phase 5 編集箇所を自動抽出"
+  },
+  "Case Pre-Submit Check Prompt": {
+    "prefix": "casecheck",
+    "body": [
+      "案件 repo「$1」の最新 diff と _worksheets/$2 の Phase 6 を突き合わせて、",
+      "提出前チェックの漏れを指摘してください。",
+      "",
+      "確認観点:",
+      "- 画像サイズ規定に違反していないか（Phase 3 の規定参照）",
+      "- 画像クリック → 拡大表示のリンク・属性が正しいか",
+      "- スマホ表示で崩れる懸念がある CSS 変更はないか",
+      "- 致命的領域（フォーム / パスワード保護 / トップ / ナビ）に触れていないか",
+      "- PDFタイトル変更が反映されているか",
+      "- 想定外のファイルが変更されていないか（改行コード/文字コード暴走の検知）",
+      "",
+      "漏れ・懸念があれば箇条書きで指摘してください。"
+    ],
+    "description": "提出前コードチェック（push直前）"
+  },
+  "Case Cause Investigation Prompt": {
+    "prefix": "casecause",
+    "body": [
+      "差し戻し指摘内容:",
+      "$1",
+      "",
+      "案件 repo「$2」の commit 履歴と _worksheets/$3 を読んで、以下を出してください。",
+      "",
+      "1. どの commit でその問題が混入したか（commit hash + 該当行）",
+      "2. worksheet の Phase 何が抜けていたか",
+      "3. 次回 casews スニペットの Phase 6 に追記すべきチェック項目（`- [ ]` 形式）",
+      "4. 同種ミスの再発防止策（1行）"
+    ],
+    "description": "差し戻し原因調査"
   }
 }
