@@ -29,5 +29,15 @@
   "editor.insertSpaces": true,
 
   "workbench.editor.enablePreview": false,
-  "workbench.startupEditor": "none"
+  "workbench.startupEditor": "none",
+
+  "editor.tabCompletion": "on",
+  "editor.snippetSuggestions": "top",
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "other": "on",
+      "comments": "off",
+      "strings": "off"
+    }
+  }
 }
