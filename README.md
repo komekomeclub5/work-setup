@@ -246,6 +246,7 @@ gdiff
 | `windows/GEMINI.md` | Gemini Code Assist Agent モード用プロジェクト指示（`C:\web\GEMINI.md` に手動コピー） |
 | `windows/_lessons_template.md` | 差し戻しログテンプレ（`C:\web\_worksheets\_lessons.md` に初回コピー） |
 | `windows/_rules_template.md` | 社内ルール変更ログテンプレ（`C:\web\_worksheets\_rules.md` に初回コピー） |
+| `windows/_case_worksheet_template.md` | AI 制限時の手動記入用テンプレ（`C:\web\_worksheets\` に置いてコピー元として使う） |
 | `git/.gitconfig` | Git 設定（autocrlf=false 等） |
 | `scripts/apply-vscode.bat` | VSCode 設定反映 |
 | `scripts/gc.ps1` | gc / gcrm / gcclean 関数定義 |
