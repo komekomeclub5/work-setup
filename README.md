@@ -64,12 +64,45 @@ C:\web\直案\
 - 全文検索が別案件に飛ぶ
 - 誤って別案件のファイルを編集する事故
 
+## 案件作業シート自動生成（Gemini Code Assist 連携）
+
+Web更新案件の依頼内容を貼り付けると、6フェーズ構造の作業シートを自動生成する Markdown スニペットを同梱。社内システムから取得した依頼情報を Gemini Code Assist 等の VSCode 拡張に投げて、判断材料を外部化するための副操縦士として使う。
+
+### セットアップ
+1. VSCode 拡張 `Gemini Code Assist` をインストールし、会社 Google アカウントでサインイン（Workspace 契約下なら学習対象外）
+2. `scripts\apply-vscode.bat` 実行でスニペット `markdown.json` も反映される
+
+### 使い方（1案件あたり30秒）
+1. 案件フォルダに `_worksheet.md` を新規作成
+2. ファイル内で `casews` と入力 → Tab でスニペット展開
+3. カーソルが「依頼情報」直下に置かれるので、社内システムから取得した依頼内容を貼り付け
+4. ファイル全選択 → Gemini Code Assist チャットに貼り付け → Enter
+5. 返ってきた Markdown で `_worksheet.md` を上書き
+6. VSCode 右半分に開き、上から埋めながら作業
+
+### 6フェーズ構造
+| Phase | 内容 |
+|-------|------|
+| 1 受領 | 種別／流入／締切／受領返信要否 |
+| 2 要件抽出 | 何を／どこを／順番／素材／**不明点** |
+| 3 サイト構成判定 | HTML直／独自CMS／WordPress、画像保管場所 |
+| 4 素材処理 | リサイズ／リネーム／PDF変換／PDFタイトル変更 |
+| 5 実装 | 編集箇所リスト（順番付き）、1変更ずつ commit→push |
+| 6 公開前チェック | 画像サイズ／クリック表示／スマホ／致命的領域 |
+| 7 完了報告 | 完了処理／完了メール／チェック依頼 |
+
+### 育て方
+- 差し戻された項目はスニペット Phase 6 に追記して次回以降に効かせる
+- 案件種別ごとの罠はルール節に追記
+- スニペット本体がナレッジの本体になる
+
 ## ディレクトリ構成
 
 | パス | 内容 |
 |------|------|
 | `vscode/settings.json` | VSCode 本体設定（Vim拡張のIME対応・改行コード対策含む） |
 | `vscode/keybindings.json` | キーバインド（無変換キー→Vim Esc） |
+| `vscode/snippets/markdown.json` | 案件作業シート生成スニペット（`casews`） |
 | `vim/drill.md` | Vim 練習ドリル |
 | `git/.gitconfig` | Git 設定（autocrlf=false 等） |
 | `scripts/apply-vscode.bat` | VSCode 設定反映 |

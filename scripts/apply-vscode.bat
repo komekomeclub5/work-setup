@@ -22,9 +22,17 @@ if exist "%TARGET%\keybindings.json" (
   echo Backed up: keybindings.json.bak
 )
 
+REM スニペット用フォルダ準備とバックアップ
+if not exist "%TARGET%\snippets" mkdir "%TARGET%\snippets"
+if exist "%TARGET%\snippets\markdown.json" (
+  copy /Y "%TARGET%\snippets\markdown.json" "%TARGET%\snippets\markdown.json.bak"
+  echo Backed up: snippets\markdown.json.bak
+)
+
 REM 反映
 copy /Y "vscode\settings.json" "%TARGET%\settings.json"
 copy /Y "vscode\keybindings.json" "%TARGET%\keybindings.json"
+copy /Y "vscode\snippets\markdown.json" "%TARGET%\snippets\markdown.json"
 
 echo.
 echo Done. VSCode を再起動してください。
