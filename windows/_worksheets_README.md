@@ -36,10 +36,15 @@ gcrm <repo>     案件フォルダ削除
 ```
 _worksheets/
   ├── README.md             ← このファイル
-  ├── _co.md                ← スクラッチ（常駐・空のまま）
+  ├── _co.md                ← スクラッチ（snippet 方式の時用・常駐・空のまま）
+  ├── _lessons.md           ← 差し戻し原因・再発防止策の蓄積
+  ├── _rules.md             ← 社内ルール変更ログ
   ├── _tmp/                 ← gdiff 出力先
   └── YYYY-MM-DD_案件番号.md ← 案件シート
 ```
+
+`_lessons.md` `_rules.md` は副操縦士（Agent モード）が自動で参照・追記候補を提示する。
+手動で追記してもよい。
 
 ## 困った時
 
