@@ -24,6 +24,11 @@
 #
 # gdiffclean
 #   - _worksheets\_tmp\ 配下の diff ファイルをまとめて削除
+#
+# gctx
+#   - 案件 repo 内で実行：tree + 主要HTML + git diff + lessons/rules 抜粋を
+#     1ファイルにまとめる。ブラウザGemini貼付用。
+#     出力: C:\web\_worksheets\_tmp\<repo>_context.md
 
 
 # PowerShell の組み込みエイリアスを解除（gc = Get-Content と衝突）
@@ -127,6 +132,80 @@ function gdiff {
     $size = (Get-Item $out).Length
     Write-Host "Wrote: $out ($size bytes)" -ForegroundColor Green
     Write-Host "Snippet 側で @_tmp/$repo.diff として参照してください。" -ForegroundColor Cyan
+}
+
+
+function gctx {
+    # 案件 repo 内で実行する想定。
+    # ブラウザ Gemini に貼り付けるコンテキスト1ファイルを生成する。
+    # 含まれる内容:
+    #   - repo ファイルツリー（tree /F /A）
+    #   - 主要HTMLファイル（最大3つ）の全文
+    #   - 現在の git diff（あれば）
+    #   - _lessons.md 末尾20行
+    #   - _rules.md 全文
+    # 出力先: C:\web\_worksheets\_tmp\<repo>_context.md
+
+    if (-not (Test-Path .git)) {
+        Write-Host "ここは git repo ではありません。案件 repo 内で実行してください。" -ForegroundColor Red
+        return
+    }
+
+    $repo = Split-Path -Leaf (Get-Location)
+    $outDir = "C:\web\_worksheets\_tmp"
+    $out = Join-Path $outDir "${repo}_context.md"
+    New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+
+    "# Context: $repo" | Out-File -Encoding UTF8 $out
+    "" | Out-File -Encoding UTF8 -Append $out
+
+    "## ファイルツリー" | Out-File -Encoding UTF8 -Append $out
+    "``````" | Out-File -Encoding UTF8 -Append $out
+    cmd /c "tree /F /A" | Out-File -Encoding UTF8 -Append $out
+    "``````" | Out-File -Encoding UTF8 -Append $out
+    "" | Out-File -Encoding UTF8 -Append $out
+
+    "## 主要HTML（最大3ファイル・*.html を変更日時順）" | Out-File -Encoding UTF8 -Append $out
+    $htmlFiles = Get-ChildItem -Filter *.html | Sort-Object LastWriteTime -Descending | Select-Object -First 3
+    foreach ($f in $htmlFiles) {
+        "### $($f.Name)" | Out-File -Encoding UTF8 -Append $out
+        "``````html" | Out-File -Encoding UTF8 -Append $out
+        Get-Content $f.FullName | Out-File -Encoding UTF8 -Append $out
+        "``````" | Out-File -Encoding UTF8 -Append $out
+        "" | Out-File -Encoding UTF8 -Append $out
+    }
+
+    "## git diff" | Out-File -Encoding UTF8 -Append $out
+    "``````diff" | Out-File -Encoding UTF8 -Append $out
+    git diff | Out-File -Encoding UTF8 -Append $out
+    "``````" | Out-File -Encoding UTF8 -Append $out
+    "" | Out-File -Encoding UTF8 -Append $out
+
+    $lessons = "C:\web\_worksheets\_lessons.md"
+    if (Test-Path $lessons) {
+        "## _lessons.md 末尾20行" | Out-File -Encoding UTF8 -Append $out
+        "``````" | Out-File -Encoding UTF8 -Append $out
+        Get-Content $lessons -Tail 20 | Out-File -Encoding UTF8 -Append $out
+        "``````" | Out-File -Encoding UTF8 -Append $out
+        "" | Out-File -Encoding UTF8 -Append $out
+    }
+
+    $rules = "C:\web\_worksheets\_rules.md"
+    if (Test-Path $rules) {
+        "## _rules.md 全文" | Out-File -Encoding UTF8 -Append $out
+        "``````" | Out-File -Encoding UTF8 -Append $out
+        Get-Content $rules | Out-File -Encoding UTF8 -Append $out
+        "``````" | Out-File -Encoding UTF8 -Append $out
+    }
+
+    $size = (Get-Item $out).Length
+    Write-Host "Wrote: $out ($size bytes)" -ForegroundColor Green
+    Write-Host "VSCode で開いて Ctrl+A → Ctrl+C → ブラウザ Gemini に貼り付け。" -ForegroundColor Cyan
+
+    # ついでにVSCodeで開く
+    if (Get-Command code -ErrorAction SilentlyContinue) {
+        code $out
+    }
 }
 
 

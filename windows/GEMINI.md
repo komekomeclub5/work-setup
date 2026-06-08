@@ -1,7 +1,26 @@
 # Web 更新案件 副操縦士 — Agent 指示書
 
-このファイルは Gemini Code Assist Agent モード（または Claude Code 等のAgent対応LLM）のプロジェクト指示として使用する。
-Workspace ルート（`C:\web\`）に配置すると、Agent が起動時に必ず読み込む。
+このファイルは以下のいずれかのモードで使用する：
+
+## モード A: Agent モード（推奨・ただし権限要）
+Gemini Code Assist Agent モードまたは Claude Code 等の Agent 対応 LLM が、Workspace 内ファイル・git コマンドを直接実行する。`C:\web\` ルートに配置すると起動時に自動読み込み。
+
+## モード B: ブラウザモード（フォールバック・ROS で Agent 権限なしの場合）
+ブラウザ Gemini 等を使う場合、AI はファイル読み取り・git コマンド実行ができない。
+ユーザーは以下手順で運用：
+
+1. 案件 repo 内で `gctx` 実行 → `C:\web\_worksheets\_tmp\<repo>_context.md` 生成
+2. 用途別 snippet を使う:
+  - `coa` = 新規案件
+  - `coc` = 提出前チェック
+  - `cod` = 差し戻し対応
+  - `cor` = 社内ルール記録
+  - `coe` = 週次振り返り
+3. snippet を markdown ファイルに展開 → 依頼内容・gctx 出力を貼る → Ctrl+A Ctrl+C
+4. ブラウザ Gemini に貼り付け → Enter
+5. 返ってきた作業シートを `_worksheets/YYYY-MM-DD_<案件番号>.md` として保存
+
+以下の指示は Agent モード前提だが、ブラウザモードでも snippet 経由で同等の動作になるよう設計されている。
 
 ## 役割
 
